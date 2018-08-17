@@ -1,5 +1,13 @@
-jpostal
--------
+pontus-jpostal
+--------------
+
+This fork bundles in the libpostal libs for Linux with the jpostal shared libs in the jar, and uses System.Loader() to pull all the deps together.  We've also added a simple example that enables the app to be tested from the command line:
+
+```
+java -cp build/libs/pontus-jpostal-1.0.0-SNAPSHOT.jar PVJpostal -
+```
+
+
 
 [![Build Status](https://travis-ci.org/openvenues/jpostal.svg?branch=master)](https://travis-ci.org/openvenues/jpostal)
 
