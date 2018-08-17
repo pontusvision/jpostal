@@ -1,8 +1,15 @@
 apply plugin: 'java'
+apply plugin: 'maven'
 
 repositories {
     mavenCentral()
 }
+
+group = 'com.pontusvision'
+// artifactId is taken by default, from folder name
+version = '1.0.0-SNAPSHOT'
+
+
 
 task buildJniLib(type:Exec) {
   commandLine './build.sh'
@@ -15,5 +22,5 @@ dependencies {
 }
 
 tasks.withType(Test) {
-    systemProperty "java.library.path", "src/main/jniLibs"
+    systemProperty "java.library.path", "src/main/resources/lib/linux-x86_64"
 }

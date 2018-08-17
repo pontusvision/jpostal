@@ -3,7 +3,7 @@
 #include <jni.h>
 #include <libpostal/libpostal.h>
 
-JNIEXPORT void JNICALL Java_com_mapzen_jpostal_AddressExpander_setup
+JNIEXPORT void JNICALL Java_com_pontusvision_jpostal_AddressExpander_setup
   (JNIEnv *env, jclass cls) {
 
     if (!libpostal_setup() || !libpostal_setup_language_classifier()) {
@@ -14,7 +14,7 @@ JNIEXPORT void JNICALL Java_com_mapzen_jpostal_AddressExpander_setup
     }
 }
 
-JNIEXPORT void JNICALL Java_com_mapzen_jpostal_AddressExpander_setupDataDir
+JNIEXPORT void JNICALL Java_com_pontusvision_jpostal_AddressExpander_setupDataDir
   (JNIEnv *env, jclass cls, jstring jDataDir) {
     const char *datadir = (*env)->GetStringUTFChars(env, jDataDir, 0);
     if (!libpostal_setup_datadir((char *)datadir) || !libpostal_setup_language_classifier_datadir((char *)datadir)) {
@@ -25,7 +25,7 @@ JNIEXPORT void JNICALL Java_com_mapzen_jpostal_AddressExpander_setupDataDir
     }
 }
 
-JNIEXPORT jobjectArray JNICALL Java_com_mapzen_jpostal_AddressExpander_libpostalExpand
+JNIEXPORT jobjectArray JNICALL Java_com_pontusvision_jpostal_AddressExpander_libpostalExpand
   (JNIEnv *env, jclass cls, jstring jAddress, jobject jOptions) {
     const char *address = (*env)->GetStringUTFChars(env, jAddress, 0);
 
@@ -238,14 +238,14 @@ JNIEXPORT jobjectArray JNICALL Java_com_mapzen_jpostal_AddressExpander_libpostal
     return ret;
 }
 
-JNIEXPORT void JNICALL Java_com_mapzen_jpostal_AddressExpander_teardown
+JNIEXPORT void JNICALL Java_com_pontusvision_jpostal_AddressExpander_teardown
   (JNIEnv *env, jclass cls) {
     libpostal_teardown();
     libpostal_teardown_language_classifier();
 }
 
 
-JNIEXPORT void JNICALL Java_com_mapzen_jpostal_ExpanderOptions_00024Builder_setDefaultOptions
+JNIEXPORT void JNICALL Java_com_pontusvision_jpostal_ExpanderOptions_00024Builder_setDefaultOptions
   (JNIEnv *env, jobject builder) {
     jfieldID fid;
     jclass cls = (*env)->GetObjectClass(env, builder);
