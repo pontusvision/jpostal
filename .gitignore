@@ -7,6 +7,29 @@
 *.jar
 *.war
 *.ear
+*.so.0*
+*.a
+*.la
+*.o
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+.gradle/*
+.idea/*
+
+*.m4
+*.lo
+Makefi*
+*.iml
+
+install*
+.deps
+.libs
+config*
+autom4te.cache/
+build/
+depcomp
+libtool
+ltmain.sh
+missing
+pom.xml
