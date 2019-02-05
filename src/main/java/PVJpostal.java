@@ -30,7 +30,7 @@ public class PVJpostal
 
         System.out.println(address);
 
-        parseDate(parser,address, sb);
+        parseData(parser,address, sb);
 
         System.out.println(sb.toString());
         System.out.println("\n\n\nPlease enter an address:");
@@ -42,14 +42,14 @@ public class PVJpostal
     {
       sb.setLength(0);
 
-      parseDate(parser,args[0], sb);
+      parseData(parser,args[0], sb);
 
       System.out.println(sb.toString());
 
     }
 
   }
-  public static void parseDate(AddressParser parser, String address, StringBuffer sb){
+  public static void parseData(AddressParser parser, String address, StringBuffer sb){
     ParsedComponent[] res = parser.parseAddress(address);
 
     for (int i = 0, ilen = res.length; i < ilen; i++)

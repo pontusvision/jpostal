@@ -11,11 +11,11 @@ version = '1.0.0'
 
 
 
-task buildJniLib(type:Exec) {
-  commandLine './build.sh'
-}
+//task buildJniLib(type:Exec) {
+ // commandLine './build.sh'
+//}
 
-compileJava.dependsOn(buildJniLib)
+//compileJava.dependsOn(buildJniLib)
 
 dependencies {
     testCompile 'junit:junit:4.+'

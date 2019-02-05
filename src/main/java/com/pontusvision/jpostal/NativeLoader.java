@@ -38,10 +38,10 @@ public class NativeLoader
 
     if (osName.startsWith("win"))
     {
-      if (osArch.equalsIgnoreCase("x86"))
+      if (osArch.equalsIgnoreCase("x86") || osArch.equalsIgnoreCase("amd64"))
       {
         name = library + ".dll";
-        path = "win-x86/";
+        path = "win-"+osArch.toLowerCase() + File.separator;
       }
       else
       {
@@ -86,7 +86,7 @@ public class NativeLoader
     try
     {
       String libraryName = getOSSpecificLibraryName(library, true);
-      in = NativeLoader.class.getClassLoader().getResourceAsStream("lib/" + libraryName);
+      in = NativeLoader.class.getClassLoader().getResourceAsStream("lib" +File.separator+ libraryName);
       String tmpDirName = System.getProperty("java.io.tmpdir");
       File tmpDir = new File(tmpDirName);
       if (!tmpDir.exists())

@@ -118,6 +118,20 @@ Only one command is needed:
 
 ```
 ./gradlew assemble
+
+NOTE: if this causes trouble in Windows, please comment out the following lines in build.gradle (and copy the windows libs by hand to resources/lib/win-x86 )
+
+then run ./gradlew assemble 
+and ./gradlew install
+
+//task buildJniLib(type:Exec) {
+ // commandLine './build.sh'
+//}
+
+//compileJava.dependsOn(buildJniLib)
+
+
+
 ```
 
 This will implicitly run [build.sh](./build.sh) which automatically runs the Autotools build for the JNI/C portion of the library and installs the resulting shared libraries in the expected location for java.library.path
