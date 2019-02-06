@@ -8,7 +8,7 @@ AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([foreign subdir-objects])
 AC_CONFIG_SRCDIR([src/main/c])
-LT_INIT([shared])
+LT_INIT([win32-dll])
 
 # Checks for programs.
 AC_PROG_CC_C99
