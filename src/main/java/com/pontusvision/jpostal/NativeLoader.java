@@ -1,6 +1,7 @@
 package com.pontusvision.jpostal;
 
 import java.io.*;
+import java.lang.reflect.Field;
 import java.util.logging.Logger;
 
 public class NativeLoader
@@ -25,11 +26,11 @@ public class NativeLoader
     {
       LOG.warning(
           "Could not find library " + library + " as resource, trying fallback lookup through System.loadLibrary");
-      System.loadLibrary(library);
+      System.loadLibrary(getOSSpecificLibraryName(library,false,false));
     }
   }
 
-  private static String getOSSpecificLibraryName(String library, boolean includePath)
+  private static String getOSSpecificLibraryName(String library, boolean includePath,boolean includeSuffix)
   {
     String osArch = System.getProperty("os.arch");
     String osName = System.getProperty("os.name").toLowerCase();
@@ -40,7 +41,7 @@ public class NativeLoader
     {
       if (osArch.equalsIgnoreCase("x86") || osArch.equalsIgnoreCase("amd64"))
       {
-        name = library + ".dll";
+        name = "lib"+library +"-1"+(includeSuffix?".dll":"");
         path = "win-"+osArch.toLowerCase() + "/";
       }
       else
@@ -52,17 +53,17 @@ public class NativeLoader
     {
       if (osArch.equalsIgnoreCase("amd64"))
       {
-        name = "lib" + library + ".so";
+        name = "lib" + library +(includeSuffix?".so":"");
         path = "linux-x86_64/";
       }
       else if (osArch.equalsIgnoreCase("ia64"))
       {
-        name = "lib" + library + ".so";
+        name = "lib" + library + (includeSuffix?".so":"");
         path = "linux-ia64/";
       }
       else if (osArch.equalsIgnoreCase("i386"))
       {
-        name = "lib" + library + ".so";
+        name = "lib" + library + (includeSuffix?".so":"");
         path = "linux-x86/";
       }
       else
@@ -78,6 +79,27 @@ public class NativeLoader
     return includePath ? path + name : name;
   }
 
+  private static boolean updatedPath = false;
+  private synchronized static void updateJavaLibraryPath(String tempDirPath) {
+    if (!updatedPath)
+    {
+      String originalJavaLibraryPath = System.getProperty("java.library.path");
+      System.setProperty("java.library.path", tempDirPath + ";" + originalJavaLibraryPath);
+      // force reload of sys_path
+      try
+      {
+        final Field sysPathsField = ClassLoader.class.getDeclaredField("sys_paths");
+        sysPathsField.setAccessible(true);
+        sysPathsField.set(null, null);
+      }
+      catch (NoSuchFieldException | IllegalAccessException e)
+      {
+        System.out.println("unexpected exception while updating java.library.path");
+      }
+      updatedPath = true;
+    }
+  }
+
   private static String saveLibrary(String library) throws IOException
   {
     InputStream in = null;
@@ -85,15 +107,17 @@ public class NativeLoader
 
     try
     {
-      String libraryName = getOSSpecificLibraryName(library, true);
+      String libraryName = getOSSpecificLibraryName(library, true,true);
       in = NativeLoader.class.getClassLoader().getResourceAsStream("lib/" + libraryName);
       String tmpDirName = System.getProperty("java.io.tmpdir");
       File tmpDir = new File(tmpDirName);
+      updateJavaLibraryPath(tmpDirName);
       if (!tmpDir.exists())
       {
         tmpDir.mkdir();
       }
-      File file = File.createTempFile(library + "-", ".tmp", tmpDir);
+
+      File file = new File(tmpDir,getOSSpecificLibraryName(library ,false,true));
       // Clean up the file when exiting
       file.deleteOnExit();
       out = new FileOutputStream(file);

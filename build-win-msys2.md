@@ -2,7 +2,7 @@ Here are the mods I had to make:
 
 1) you have to run the pontus-postal and build it separately.
 copy the ./src/.lib/libpostal-1.dll (from the pontus-postal project) to  the ./src/main/resources/lib/win-amd64/ directory in this project:
-cp ../pontus-postal/src/.lib/libpostal-1.dll ./src/main/resources/lib/win-amd64/libpostal.dll
+cp ../pontus-libpostal/src/.lib/libpostal-1.dll ./src/main/resources/lib/win-amd64/libpostal-1.dll
 
 2) once you build the postal.dll, then we have to run the app here.
 
@@ -44,8 +44,8 @@ libjpostal_parser_la_LDFLAGS = -no-undefined -L/c/work/pontus-git/pontusvision-x
 
 6) then  copy the libs
 ```
-cp ./src/main/c/.libs/libjpostal_parser-0.dll ./src/main/resources/lib/win-amd64/libjpostal_parser.dll
-cp ./src/main/c/.libs/libjpostal_parser-0.dll ./src/main/resources/lib/win-amd64/libjpostal_parser.dll
+cp ./src/main/c/.libs/libjpostal_parser-0.dll ./src/main/resources/lib/win-amd64/libjpostal_parser-1.dll
+cp ./src/main/c/.libs/libjpostal_parser-0.dll ./src/main/resources/lib/win-amd64/libjpostal_parser-1.dll
 ```
 7) run gradle:
 ```
