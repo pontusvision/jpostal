@@ -2,6 +2,8 @@ package com.pontusvision.jpostal;
 
 import java.io.*;
 import java.lang.reflect.Field;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 
 public class NativeLoader
@@ -9,24 +11,37 @@ public class NativeLoader
 
   public static final Logger LOG = Logger.getLogger(NativeLoader.class.getName());
 
+  public static Set<String> loadedLibs = new HashSet<>();
   public NativeLoader()
   {
   }
 
-  public static void loadLibrary(String library)
+  public static synchronized void loadLibrary(String library)
   {
     try
     {
-      LOG.info("Loading Library " + library);
-      System.load(saveLibrary(library));
-      LOG.info("Loaded Library " + library);
+      if (!loadedLibs.contains(library)){
+        LOG.info("Loading Library " + library);
+
+        System.load(saveLibrary(library));
+
+        loadedLibs.add(library);
+
+        LOG.info("Loaded Library " + library);
+
+      }
 
     }
     catch (IOException e)
     {
       LOG.warning(
           "Could not find library " + library + " as resource, trying fallback lookup through System.loadLibrary");
-      System.loadLibrary(getOSSpecificLibraryName(library,false,false));
+      if (!loadedLibs.contains(library))
+      {
+        System.loadLibrary(getOSSpecificLibraryName(library, false, false));
+        loadedLibs.add(library);
+
+      }
     }
   }
 
