@@ -7,4 +7,3 @@ else
 ./configure --libdir=$(pwd)/src/main/resources/lib/linux-x86_64
 if
 make clean install
-
