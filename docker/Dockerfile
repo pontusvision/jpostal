@@ -1,4 +1,4 @@
-FROM centos as builder
+FROM centos:7 as builder
 
 RUN  yum -y update && \
      yum install -y java  && \
